@@ -1,30 +1,29 @@
+
 /*
- * Primary author: Eylam Tagor
- * Date of completion: 5/17/18
+ * Primary Author: Eylam Tagor
+ * Date of Completion: 5/10/18
  * Revision Number: 3
  */
 
 public class Missile extends GamePiece {
 
-	// Fields:
+	// Field
 	private int typeHit = 0;
 
-	// Constructor:
+	// Constructor with x-y coordinates and type of hit
 	public Missile(int x, int y, int a) {
 		super(x, y);
 		typeHit = a;
 	}
 
-	// Accessor/Mutator Methods:
-
-	// Returns the missile type (hit/miss)
-	public int getType() {
-		return typeHit;
-	}
-
-	// Sets the missile's type
+	// Sets the type of hit
 	public void setType(int type) {
 		typeHit = type;
 	}
 
+	// Returns the type of hit
+	public int getType() {
+		return typeHit;
+	}
+	
 }

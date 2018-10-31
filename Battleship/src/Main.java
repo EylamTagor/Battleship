@@ -1,4 +1,3 @@
-
 /*
  * Primary Author: Brian La
  * Date of Completion: 5/16/18
@@ -20,17 +19,17 @@ public class Main extends JPanel {
 	public static Menu menu;
 
 	public static void main(String[] args) {
+		
+		// Add menu to the window
+		menu = new Menu();
+		menuWindow.add(menu);
+		
 		// Sets frame size
-		menuWindow.setSize(1000, 410);
+		menuWindow.setSize(1000, 400);
 
 		// Finally, make the window visible
 		menuWindow.setVisible(true);
 		menuWindow.setResizable(false);
-
-		// Initially displays the menu
-		menu = new Menu();
-
-		menuWindow.add(menu);
 
 	}
 

@@ -1,7 +1,8 @@
+
 /*
- * Primary author: Eylam Tagor
- * Date of completion: 5/17/18
- * Revision Number: 3
+ * Primary Author: Eylam Tagor
+ * Date of Completion: 5/10/18
+ * Revision Number: 4
  */
 
 public class Ship extends GamePiece {
@@ -16,26 +17,24 @@ public class Ship extends GamePiece {
 		isHorizontal = true;
 	}
 
-	// Methods:
-
-	// Sets ship's length (5, 4, 3, 3, or 2)
+	// Sets the length
 	public void setLength(int x) {
 		this.length = x;
 	}
 
-	// Changes/adds ship's x and y coordinates
+	// Returns the length of battleship
+	public int getLength() {
+		return length;
+	}
+
+	// Changes the position of the ship
 	public void addPosition(int x, int y) {
 		super.changePosition(x, y);
 	}
 
-	// Changes ship's rotation
+	// Changes the orientation
 	public void changeOrientation() {
 		isHorizontal = !isHorizontal;
-	}
-
-	// Returns length of ship
-	public int getLength() {
-		return length;
 	}
 
 }

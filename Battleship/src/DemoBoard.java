@@ -1,20 +1,20 @@
 
 /*
- * Primary Author: Josh Sanyal
+ * Primary Author: Eylam Tagor
  * Date of Completion: 5/16/18
- * Revision Number: 12
+ * Revision Number: 4
  */
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Board extends JPanel implements MouseListener, MouseMotionListener {
+public class DemoBoard extends JPanel implements MouseListener, MouseMotionListener {
 
 	// Fields
-	private Ship[] ships = new Ship[5];
-	private Missile[] missiles = new Missile[100];
-	private Rectangle[] pieces = new Rectangle[5];
+	private Ship[] ships = new Ship[3];
+	private Missile[] missiles = new Missile[25];
+	private Rectangle[] pieces = new Rectangle[3];
 	private boolean[] clickedOnState = new boolean[5];
 	private int turn = 0, id, numMissiles = 0, numHits = 0;
 	private static int winner = 2;
@@ -25,27 +25,23 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	private Font font = new Font("SansSerif", Font.PLAIN, 15);
 
 	// Constructor with a playerID input
-	public Board(int a) {
+	public DemoBoard(int a) {
 		id = a;
 
 		// Defining the ships on the board
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 3; i++) {
 			ships[i] = new Ship();
 			ships[i].addPosition(350, 50 + 60 * i);
-			if (i < 2) {
-				ships[i].setLength(i + 2);
-			} else {
-				ships[i].setLength(i + 1);
-
-			}
+			ships[i].setLength(i + 1);
 		}
 
 		// Adding Mouse Listener and Mouse Motion Listener
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
-		// Defines the pieces (physical representations of the ships) and their clicked states
-		for (int i = 0; i < 5; i++) {
+		// Defines the pieces (physical representations of the ships) and their clicked
+		// states
+		for (int i = 0; i < 3; i++) {
 			if (ships[i].isHorizontal) {
 				pieces[i] = new Rectangle(ships[i].x - ships[i].x % 30, ships[i].y - ships[i].y % 30,
 						30 * ships[i].length, 30);
@@ -72,29 +68,28 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Draws board
 		g.setColor(Color.GRAY);
-		g.fillRect(30, 30, 300, 300);
+		g.fillRect(30, 30, 150, 150);
 
 		g.setColor(Color.BLACK);
-		for (int i = 0; i < 11; i++) {
-			g.drawLine(30 + 30 * i, 30, 30 + 30 * i, 330);
-			g.drawLine(30, 30 + 30 * i, 330, 30 + 30 * i);
+		for (int i = 0; i < 6; i++) {
+			g.drawLine(30 + 30 * i, 30, 30 + 30 * i, 180);
+			g.drawLine(30, 30 + 30 * i, 180, 30 + 30 * i);
 
 		}
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			g.drawString("" + (char) ('A' + i), 10, 45 + 30 * i);
 			g.drawString("" + (i + 1), 45 + 30 * i, 20);
 		}
 
 		// Draws ships
 		if (turn % 2 == id && shipsVisible) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (clickedOnState[i]) {
 					g.setColor(Color.BLACK);
 				} else {
 					g.setColor(Color.GREEN);
 				}
-				
 				pieces[i].x = pieces[i].x - pieces[i].x % 30;
 				pieces[i].y = pieces[i].y - pieces[i].y % 30;
 				g.fillRect(pieces[i].x, pieces[i].y, pieces[i].width, pieces[i].height);
@@ -105,7 +100,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 		}
 
 		// Draws missiles
-		// Red is sunk, orage is hit, white is miss
 		for (int i = 0; i < numMissiles; i++) {
 			if (missiles[i].getType() == 2) {
 				g.setColor(Color.RED);
@@ -150,7 +144,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 	public void mouseClicked(MouseEvent e) {
 
-		// x and y are set to the x and y of the mouse
+		// x & y are set to the x & y of the mouse
 		int x, y;
 
 		x = e.getX();
@@ -158,7 +152,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Lets the player change the orientation of the ship
 		if (turn == id) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (pieces[i].contains(x, y)) {
 					ships[i].changeOrientation();
 					double z = pieces[i].getWidth();
@@ -168,7 +162,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 			}
 		}
 
-		// If player tries to end their turn
 		if (endTurn.contains(x, y)) {
 
 			// Alerts the user if their board setup is invalid
@@ -197,8 +190,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Allows user to show/hide ships
 		if (showShips.contains(x, y)) {
-
-			// Alerts the user if their action is prohibited
 			if (id != currentPlayer) {
 				JOptionPane.showMessageDialog(null, "Not Your Turn", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
@@ -209,7 +200,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 		// Allows the player to create missiles until they miss
 		if (turn % 2 != id && turn > 1 && x > 30 && x < 330 && y > 30 && y < 330 && !missileCreated) {
 			boolean alreadyClicked = false, isHit = false;
-			int[] sunk = new int[5];
+			int[] sunk = new int[3];
 			for (int i = 0; i < numMissiles; i++) {
 				if (x - x % 30 == missiles[i].x && y - y % 30 == missiles[i].y) {
 					alreadyClicked = true;
@@ -220,14 +211,12 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 			if (!alreadyClicked) {
 				missiles[numMissiles] = new Missile(x - x % 30, y - y % 30, 0);
 				missileCreated = true;
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < 3; i++) {
 
 					// Checks if they hit a battleship
 					if (pieces[i].contains(x, y)) {
 
-						// Checks if the battleship sunk
-						
-						// Runs through all the positions of the ship and checks if they were hit by a missile
+						// Checks if the sunk a battleship
 						for (int j = 0; j < ships[i].getLength(); j++) {
 							for (int k = 0; k < numMissiles + 1; k++) {
 								if (ships[i].isHorizontal) {
@@ -245,7 +234,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 								}
 							}
 
-							// Changes the missile's type of hit
 							if (j == ships[i].getLength() - 1 && isHit) {
 								for (int k = 0; k < ships[i].getLength(); k++) {
 									missiles[sunk[k]].setType(2);
@@ -262,7 +250,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 						numHits++;
 
 						// Checks if the player wins
-						if (numHits == 17) {
+						if (numHits == 6) {
 							winner = id;
 						}
 						if (winner == 0 || winner == 1) {
@@ -278,7 +266,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// x and y are set to the x and y of the mouse
+		// x & y are set to the x & y of the mouse
 		int x, y;
 
 		x = e.getX();
@@ -286,7 +274,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Sets the clickedOnState of a ship true when it is pressed
 		if (turn == id) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (pieces[i].contains(x, y)) {
 					clickedOnState[i] = true;
 				}
@@ -299,7 +287,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// x and y are set to the x and y of the mouse
+		// x & y are set to the x & y of the mouse
 		int x, y;
 
 		x = e.getX();
@@ -307,7 +295,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Sets the clickedOnState of a ship to false when it is released
 		if (turn == id) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (pieces[i].contains(x, y)) {
 					clickedOnState[i] = false;
 				}
@@ -318,7 +306,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		// x and y are set to the x and y of the mouse
+		// x & y are set to the x & y of the mouse
 		int x, y;
 
 		x = e.getX();
@@ -326,7 +314,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 		// Allows the user to move their ships
 		if (turn == id) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (clickedOnState[i]) {
 					pieces[i].x = x;
 					pieces[i].y = y;
@@ -347,11 +335,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	// Method that returns true if the board setup is valid
 	public boolean checkValid() {
 		int counter = 0;
-		
-		// Runs through each space on the board and adds to the counter if a ships is on the space
-		for (int x = 0; x < 10; x++) {
-			for (int y = 0; y < 10; y++) {
-				for (int j = 0; j < 5; j++) {
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 5; y++) {
+				for (int j = 0; j < 3; j++) {
 					if (pieces[j].contains(x * 30 + 45, y * 30 + 45)) {
 						counter++;
 						break;
@@ -360,9 +346,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 			}
 		}
-		
-		// If the counter equals 17, the setup is valid
-		return (counter == 17);
+		System.out.println(counter);
+		return (counter == 6);
 	}
 
 	public void mouseEntered(MouseEvent e) {

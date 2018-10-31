@@ -1,23 +1,21 @@
+
 /*
- * Primary author: Eylam Tagor
- * Date of completion: 5/17/18
+ * Primary Author: Eylam Tagor
+ * Date of Completion: 5/9/18
  * Revision Number: 2
  */
 
 public class GamePiece {
 
-	// Fields
 	public int x, y;
 
-	// Constructor:
-	public GamePiece(int a, int b) {
-		x = a;
-		y = b;
+	// Constructor with x and y coordinates
+	public GamePiece(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	// Methods:
-
-	// Changes the coordinates of the gamepiece object
+	// Changes the position of the game piece
 	public void changePosition(int x, int y) {
 		this.x = x;
 		this.y = y;

@@ -1,4 +1,3 @@
-
 /*
  * Primary Author: Brian La
  * Date of Completion: 5/13/18
@@ -24,7 +23,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
-		// Creates the title screen
+		// Creates the title and
 		battleship = new Rectangle(200, 30, 600, 50);
 		pvp = new Rectangle(350, 150, 300, 50);
 		rule = new Rectangle(350, 250, 300, 50);
@@ -45,7 +44,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 			g.setFont(font);
 			g.drawString("1. Drag and Drop Your Ships on to the Board", 100, 125);
-			g.drawString("2. Click Your Ships to Rotate Them", 100, 175);
+			g.drawString("2. Click Your Ship to Rotate Them", 100, 175);
 			g.drawString("3. Click Hide Ships to Conceal the Positions", 100, 225);
 			g.drawString("4. Click End Turn to Finalize the Set-Up", 100, 275);
 
@@ -102,7 +101,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			}
 		} else {
 			if (pvp.contains(x, y)) {
-				Main.gameWindow.setSize(1000, 410);
+				Main.gameWindow.setSize(1000, 400);
 				Main.gameWindow.setVisible(true);
 				Main.gameWindow.setResizable(false);
 				Main.gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
